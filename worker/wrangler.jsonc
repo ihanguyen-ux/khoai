@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "winchat-signal",
+  "main": "src/index.js",
+  "compatibility_date": "2025-09-01",
+
+  // Mỗi mã phòng = 1 Durable Object (tối đa 2 kết nối WebSocket)
+  "durable_objects": {
+    "bindings": [{ "name": "ROOMS", "class_name": "Room" }]
+  },
+  // Gói Workers Free CHỈ hỗ trợ Durable Objects dùng SQLite → phải khai báo bằng new_sqlite_classes
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["Room"] }],
+
+  // Biến cấu hình công khai. Dán "TURN Token ID" (Key ID) của bạn vào TURN_KEY_ID ở đây,
+  // hoặc đặt trong Dashboard → Workers → winchat-signal → Settings → Variables.
+  // Bí mật (ACCESS_KEY, TURN_API_TOKEN) KHÔNG để ở đây — dùng `wrangler secret put`.
+  "vars": {
+    "TURN_KEY_ID": ""
+  },
+
+  "observability": { "enabled": false }
+}

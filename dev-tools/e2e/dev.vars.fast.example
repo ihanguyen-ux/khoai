@@ -1,0 +1,4 @@
+ACCESS_KEY=khoa-test
+TURN_KEY_ID=keyid123
+TURN_API_TOKEN=fake-token
+TURN_API_BASE=http://127.0.0.1:9911

@@ -1,0 +1,15 @@
+{
+  "name": "winchat-signal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "WinChat signaling trên Cloudflare Workers + Durable Objects",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^4.40.0"
+  }
+}

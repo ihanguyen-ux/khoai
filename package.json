@@ -1,0 +1,85 @@
+{
+  "name": "winchat",
+  "productName": "WinChat",
+  "version": "1.0.0",
+  "description": "WinChat - nhắn tin và gọi video 1-1 (Electron + React + WebRTC), signaling qua WebSocket / Cloudflare Workers",
+  "author": "WinChat",
+  "license": "MIT",
+  "private": true,
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "server": "node server/server.js",
+    "electron:start": "cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron .",
+    "electron:prod": "npm run build && electron .",
+    "start:all": "concurrently -k -n vite,electron \"npm run dev\" \"wait-on tcp:5173 && npm run electron:start\"",
+    "test": "node --test server/test/signaling.test.js server/test/signal-client.test.mjs",
+    "dist": "npm run build && electron-builder --win --x64",
+    "dist:dir": "npm run build && electron-builder --win --x64 --dir",
+    "test:worker": "node --test server/test/signaling.test.js server/test/worker-extra.test.js",
+    "worker:dev": "cd worker && npm run dev",
+    "worker:deploy": "cd worker && npm run deploy"
+  },
+  "build": {
+    "appId": "com.winchat.desktop",
+    "productName": "WinChat",
+    "copyright": "WinChat",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "server/server.js",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "icon": "build/icon.png",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "WinChat"
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-portable.${ext}"
+    }
+  },
+  "dependencies": {
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.2",
+    "concurrently": "^10.0.6",
+    "cross-env": "^10.1.0",
+    "electron": "^44.7.0",
+    "electron-builder": "^26.15.3",
+    "lucide-react": "^1.55.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.4",
+    "wait-on": "^9.5.1"
+  }
+}
